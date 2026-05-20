@@ -16,7 +16,7 @@
 # 4. pg_trgm extension   — required by ChirpStack v4 migrations
 # 5. Rock Pi 4B+ GPIO    — POWER_EN on gpiochip4:3 (header pin 12) held HIGH
 #                          SX130x NRESET on gpiochip4:22 (header pin 11)
-#                          Both held via daemonized gpioset processes
+#                          POWER_EN held via daemonized gpioset; NRESET owned by concentratord
 #
 # Usage
 # -----
@@ -353,8 +353,8 @@ EOF
 # Fix 5 — SX130x hardware reset script
 # POWER_EN (gpiochip4:3, header pin 12) must be held HIGH to power the TCXO.
 # Without it, the chip returns version 0x00 and RF calibration always fails.
-# NRESET (gpiochip4:22, header pin 11) must be pulsed LOW then held HIGH.
-# Both lines are held via daemonized gpioset processes that survive service start.
+# NRESET (gpiochip4:22, header pin 11) is owned exclusively by concentratord
+# via sx1301_reset_chip/sx1301_reset_pin — do NOT daemonize it here.
 step_reset_script() {
     local chip_label="$1"
     log "Fix 5 — SX130x GPIO reset helper (POWER_EN + NRESET)"

@@ -198,9 +198,9 @@ ls -la /dev/spidev1.0
 
 The `docs/` folder contains the full debugging story — SPI device tree battles, the GL5712 NRESET inverter discovery, the removed SPI flash chip (Nebra recall), and how it was eventually solved. Worth reading if you're hitting similar problems.
 
-- [docs/spi-debugging.md](docs/spi-debugging.md) — SPI enablement, device tree, chip select issues
-- [docs/gl5712-nreset-inverter.md](docs/gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
-- [docs/hardware-notes.md](docs/hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
+- [spi-debugging.md](spi-debugging.md) — SPI enablement, device tree, chip select issues
+- [gl5712-nreset-inverter.md](gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
+- [hardware-notes.md](hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
 
 ---
 
@@ -208,7 +208,6 @@ The `docs/` folder contains the full debugging story — SPI device tree battles
 
 If this helped you, the following places have active threads on Rock Pi / Nebra / ChirpStack issues:
 
-- [Nebra community forums](https://nebra.com/blogs/news)
 - [ChirpStack forum](https://forum.chirpstack.io) — search for "Rock Pi SPI"
 - [r/LoRa](https://reddit.com/r/LoRa) and [r/homeautomation](https://reddit.com/r/homeautomation)
 - [The Things Network forum](https://thethingsnetwork.org/forum)
