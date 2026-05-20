@@ -253,7 +253,6 @@ The MQTT topic for all uplinks is `eu868/gateway/+/event/up`. Decoded fields app
 
 If this helped you, the following places have active threads on Rock Pi / Nebra / ChirpStack issues:
 
-- [Nebra community forums](https://nebra.com/blogs/news)
 - [ChirpStack forum](https://forum.chirpstack.io) — search for "Rock Pi SPI"
 - [r/LoRa](https://reddit.com/r/LoRa) and [r/homeautomation](https://reddit.com/r/homeautomation)
 - [The Things Network forum](https://thethingsnetwork.org/forum)
