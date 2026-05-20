@@ -198,9 +198,38 @@ ls -la /dev/spidev1.0
 
 The `docs/` folder contains the full debugging story — SPI device tree battles, the GL5712 NRESET inverter discovery, the removed SPI flash chip (Nebra recall), and how it was eventually solved. Worth reading if you're hitting similar problems.
 
-- [spi-debugging.md](spi-debugging.md) — SPI enablement, device tree, chip select issues
-- [gl5712-nreset-inverter.md](gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
-- [hardware-notes.md](hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
+- [docs/spi-debugging.md](docs/spi-debugging.md) — SPI enablement, device tree, chip select issues
+- [docs/gl5712-nreset-inverter.md](docs/gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
+- [docs/hardware-notes.md](docs/hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
+
+---
+
+## Adding your first device
+
+Once the gateway is online, add a LoRaWAN end device in ChirpStack:
+
+1. **Device Profiles → Add** — set LoRaWAN MAC version to match your device (e.g. 1.0.3 for Browan TBOL100), region EU868, OTAA
+2. **Applications → Add** — create an application to hold your devices
+3. **Add device** — enter DevEUI and JoinEUI, select the profile, submit
+4. **OTAA keys tab** — enter the AppKey, submit
+5. Power on the device — a `join` event should appear in the Events tab within 60 seconds, followed by the first uplink
+
+### Payload codec
+
+Raw uplinks arrive as hex. Add a JavaScript codec under Device Profiles → Payload codec to decode them into human-readable fields. ChirpStack v4 requires the decode function to return `{ data: decoded }`.
+
+### Visualising GPS data
+
+ChirpStack's built-in map shows gateway location only — it does not plot device GPS tracks. For a GPS tracker, forward the decoded data to an external tool:
+
+| Tool | Notes |
+|---|---|
+| **Node-RED** | Subscribe to MQTT, parse decoded JSON, plot on a world map node. Runs on the same Rock Pi. |
+| **Grafana** | Geomap panel with PostgreSQL or InfluxDB source. Shows historical tracks with time filtering. |
+| **Datacake** | Cloud IoT dashboard with free tier and native ChirpStack integration. Map widget plots lat/lon automatically. |
+| **InfluxDB + Telegraf** | Telegraf MQTT consumer writes decoded fields to InfluxDB. Pairs with Grafana for long-term storage. |
+
+The MQTT topic for all uplinks is `eu868/gateway/+/event/up`. Decoded fields appear in the `object` key of the payload JSON.
 
 ---
 
@@ -208,6 +237,7 @@ The `docs/` folder contains the full debugging story — SPI device tree battles
 
 If this helped you, the following places have active threads on Rock Pi / Nebra / ChirpStack issues:
 
+- [Nebra community forums](https://nebra.com/blogs/news)
 - [ChirpStack forum](https://forum.chirpstack.io) — search for "Rock Pi SPI"
 - [r/LoRa](https://reddit.com/r/LoRa) and [r/homeautomation](https://reddit.com/r/homeautomation)
 - [The Things Network forum](https://thethingsnetwork.org/forum)
