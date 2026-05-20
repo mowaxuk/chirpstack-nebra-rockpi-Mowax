@@ -2,9 +2,11 @@
 
 **One-script ChirpStack v4 LoRaWAN gateway setup for the Radxa Rock Pi 4B+ with a Nebra Indoor LoRa HAT.**
 
-Built and tested by [Mowax](https://github.com/mowax) after several weeks of hardware debugging. This repo exists because getting a Nebra HAT working on a Rock Pi under modern Armbian is genuinely hard — the SPI overlay system is broken, the GL5712-UX concentrator has a non-obvious NRESET inverter, and there are almost no documented solutions for this exact combination.
+Built and tested by [Mowax](https://github.com/mowaxuk) after several weeks of hardware debugging. This repo exists because getting a Nebra HAT working on a Rock Pi under modern Armbian is genuinely hard — the SPI overlay system is broken, the GL5712-UX concentrator has a non-obvious NRESET inverter, and there are almost no documented solutions for this exact combination.
 
 If you have this hardware and have been staring at `SPI returns 0x00` or `lgw_start failed`, this is for you.
+
+**Keywords:** LoRaWAN gateway, ChirpStack v4, Rock Pi 4B+, Radxa RK3399, Nebra Indoor Hotspot, Nebra LoRa HAT, GL5712-UX, GL5712, MAXIIOT, SX1301, RAK2245, RAK2287, SX1302, Armbian Trixie, EU868, private LoRaWAN network, chirpstack-concentratord-sx1301, chirpstack-concentratord-sx1302, lgw_start failed, SPI returns 0x00, NRESET inverter, gpiochip4, spidev1.0, LoRa gateway Raspberry Pi alternative
 
 ---
 
@@ -26,6 +28,20 @@ If you have this hardware and have been staring at `SPI returns 0x00` or `lgw_st
 > - RAK2287 — green PCB, has green/red LEDs  
 >
 > The script auto-detects, or use `--sx1301` / `--sx1302` to force.
+
+---
+
+## Who is this for?
+
+This repo is for anyone who:
+
+- Has a **Nebra Indoor LoRa HAT** (Pi Supply) on a **Rock Pi 4B+** running **Armbian**
+- Is trying to run a **private ChirpStack v4 LoRaWAN network server**
+- Has hit `lgw_start failed`, `SPI returns 0x00`, or `cal_status = 0x00` and can't find a solution
+- Has a **GL5712-UX** (MAXIIOT, SX1301-based, black PCB, no LEDs) or **RAK2287** (SX1302-based, green PCB) concentrator module
+- Bought a second-hand **Nebra Rock Pi Indoor Hotspot** from eBay and wants to repurpose it as a private gateway
+
+It also applies to anyone who has a Rock Pi 4B+ where the **SPI NOR flash chip (XT25F32BWIG) was removed** as part of the Nebra product recall — this affects every Nebra Rock Pi unit and causes SPI write failures at high speeds.
 
 ---
 
