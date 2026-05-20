@@ -2,6 +2,8 @@
 
 **One-script ChirpStack v4 LoRaWAN gateway setup for the Radxa Rock Pi 4B+ with a Nebra Indoor LoRa HAT.**
 
+This script is specific to Armbian Trixie on the Rock Pi 4B+. It will not work on Raspberry Pi, other Rock Pi models, or other operating systems.
+
 Built and tested by [Mowax](https://github.com/mowaxuk) after several weeks of hardware debugging. This repo exists because getting a Nebra HAT working on a Rock Pi under modern Armbian is genuinely hard — the SPI overlay system is broken, the GL5712-UX concentrator has a non-obvious NRESET inverter, and there are almost no documented solutions for this exact combination.
 
 If you have this hardware and have been staring at `SPI returns 0x00` or `lgw_start failed`, this is for you.
