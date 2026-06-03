@@ -106,7 +106,7 @@ bash setup.sh --yes       # Non-interactive (no prompts)
 
 On Armbian Trixie rolling builds for the Rock Pi 4B+, overlays listed in `/boot/armbianEnv.txt` are silently ignored at boot. No errors, nothing in dmesg — they just don't load.
 
-**Fix:** The script uses the `rk3399-spi-spidev` overlay which does work correctly on current Armbian builds. If you're on a very early kernel and this fails, see [docs/spi-debugging.md](docs/spi-debugging.md) for the direct DTB edit method.
+**Fix:** The script uses the `rk3399-spi-spidev` overlay which does work correctly on current Armbian builds. If you're on a very early kernel and this fails, see [spi-debugging.md](spi-debugging.md) for the direct DTB edit method.
 
 ### Problem 2: The GL5712-UX has an inverter on NRESET
 
@@ -216,9 +216,9 @@ ls -la /dev/spidev1.0
 
 The `docs/` folder contains the full debugging story — SPI device tree battles, the GL5712 NRESET inverter discovery, the removed SPI flash chip (Nebra recall), and how it was eventually solved. Worth reading if you're hitting similar problems.
 
-- [docs/spi-debugging.md](docs/spi-debugging.md) — SPI enablement, device tree, chip select issues
-- [docs/gl5712-nreset-inverter.md](docs/gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
-- [docs/hardware-notes.md](docs/hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
+- [spi-debugging.md](spi-debugging.md) — SPI enablement, device tree, chip select issues
+- [gl5712-nreset-inverter.md](gl5712-nreset-inverter.md) — The NRESET inverter discovery and fix
+- [hardware-notes.md](hardware-notes.md) — GPIO pinout, SPI NOR flash recall, chip differences
 
 ---
 
