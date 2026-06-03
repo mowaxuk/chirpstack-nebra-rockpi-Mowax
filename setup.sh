@@ -242,8 +242,12 @@ step_install_packages() {
 
     log "Adding ChirpStack APT repository"
     mkdir -p /etc/apt/keyrings/
-    wget -q -O - https://artifacts.chirpstack.io/packages/chirpstack.key \
-        | gpg --dearmor > /etc/apt/keyrings/chirpstack.gpg
+    wget -q -O /tmp/chirpstack.key https://artifacts.chirpstack.io/packages/chirpstack.key || die "Failed to download ChirpStack repo key"
+    [ -s /tmp/chirpstack.key ] || die "ChirpStack repo key download was empty"
+    gpg --no-default-keyring --keyring /tmp/chirpstack-temp.gpg --import /tmp/chirpstack.key 2>/dev/null || true
+    gpg --no-default-keyring --keyring /tmp/chirpstack-temp.gpg --export > /etc/apt/keyrings/chirpstack.gpg
+    [ -s /etc/apt/keyrings/chirpstack.gpg ] || die "ChirpStack GPG keyring is empty"
+    rm -f /tmp/chirpstack.key /tmp/chirpstack-temp.gpg /tmp/chirpstack-temp.gpg~
     echo "deb [signed-by=/etc/apt/keyrings/chirpstack.gpg] https://artifacts.chirpstack.io/packages/4.x/deb stable main" \
         > /etc/apt/sources.list.d/chirpstack.list
     apt-get update -qq
@@ -256,7 +260,10 @@ step_install_packages() {
 
     # concentratord: sx1302 is in the APT repo; sx1301 requires direct download
     if [ "$chip_type" = "sx1302" ]; then
-        apt-get install -y -qq chirpstack-concentratord-sx1302
+        curl -fsSL https://artifacts.chirpstack.io/downloads/chirpstack-concentratord/chirpstack-concentratord-sx1302_4.7.1_linux_arm64.tar.gz -o /tmp/concentratord-sx1302.tar.gz || die "Failed to download chirpstack-concentratord-sx1302"
+        tar -xzf /tmp/concentratord-sx1302.tar.gz -C /usr/bin/ || die "Failed to extract chirpstack-concentratord-sx1302"
+        chmod +x /usr/bin/chirpstack-concentratord-sx1302
+        rm -f /tmp/concentratord-sx1302.tar.gz
     else
         log "Downloading chirpstack-concentratord-sx1301 (not in APT repo)"
         curl -fsSL "$SX1301_DEB_URL" -o "$SX1301_DEB"
@@ -463,6 +470,11 @@ step_concentratord_config() {
   region         = "EU868"
   gateway_id     = "${GATEWAY_EUI}"
   com_dev_path   = "${SPI_DEV}"
+$(if [ "${chip_type}" = "sx1302" ]; then cat <<SX1302_RESET
+  sx1302_reset_chip = "/dev/gpiochip4"
+  sx1302_reset_pin  = 21
+SX1302_RESET
+fi)
 $(if [ "${chip_type}" = "sx1301" ]; then cat <<SX1301_RESET
   # SX1301/GL5712-UX: concentratord must own NRESET (gpiochip4:22).
   # The GL5712-UX has an inverter on NRESET so the power service must NOT
